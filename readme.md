@@ -14,7 +14,7 @@
 ## 思路说明  
 * 本次比赛使用主要使用迁移学习和yolo_v3两个模型进行预测，然后对结果取平均。
 * 迁移学习：  
-  * 使用inception_v3做迁移学习，将模型导出的结果做GlobalAveragePooling得到一个1024维的向量，然后直接使用densenet(全连接层）到11维的向量。这里尝试过先添加512维的全连接层再添加11维的全连接层，效果并不好,(可能是因为inception本身是没有新添一个全连接层的)。使用softmax激活函数，logloss做损失函数。
+  * 使用inception_v3做迁移学习，将模型导出的结果做GlobalAveragePooling得到一个1024维的向量，然后直接使用全连接到11维的向量。这里尝试过先添加512维的全连接层再添加11维的全连接层，效果并不好,(可能是因为inception本身是没有新添一个全连接层的)。使用softmax激活函数，logloss做损失函数。
   * 训练过程：先把inception\_v3所有层都冻结，只对最后的一层进行训练，训练50个epoches后。finetune即使用对所有的层都进行训练，使用较小的学习率训练50个epoches，这样有助于先学习到最后一层（分类层）的权重。训练时使用early stop和learning\_rate decay用val\_loss做监视指标。  
 * yolov3：
   * yolov3的实现代码参照[该链接](http://github.com)
